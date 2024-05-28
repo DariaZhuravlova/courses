@@ -9,13 +9,19 @@ router.post('/', async (req, res) => {
   res.redirect('/card')
 })
 
+router.delete('/remove/:id', async (req, res) => {
+  const card = await Card.remove(req.params.id)
+  res.status(200).json(card)
+})
+
 router.get('/', async (req, res) => {
   const card = await Card.fetch()
   const courses = await Course.getAll()
   res.render('card', {
     title: 'Корзина',
-    card,
-    courses
+    isCard: true,
+    courses: card.courses,
+    price: card.price
   })
 })
 
